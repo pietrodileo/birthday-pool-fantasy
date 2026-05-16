@@ -66,7 +66,7 @@ export async function registerParticipant(formData: FormData) {
     pool_id: pool.id,
     participant_id: session.participantId,
     name: characterName,
-    description: description || `Costume by ${session.displayName}`,
+    description: description || `Costume di ${session.displayName}`,
     active: true
   };
   const { data: existingCostume } = await supabase
@@ -198,7 +198,7 @@ export async function resetPoolVotes() {
 
 export async function createNewPool(formData: FormData) {
   await requireAdmin();
-  const name = value(formData, "name") || `Costume Pool ${new Date().toLocaleDateString("en-GB")}`;
+  const name = value(formData, "name") || `Concilio dei Costumi ${new Date().toLocaleDateString("it-IT")}`;
   const supabase = getSupabaseAdmin();
 
   await supabase.from("pools").update({ is_open: false, voting_open: false, results_visible: false }).eq("is_open", true);
@@ -220,10 +220,10 @@ export async function createNewPool(formData: FormData) {
   }
 
   await supabase.from("costumes").insert([
-    { pool_id: pool.id, name: "The Silver Knight", description: "Armor, cloak, noble stare." },
-    { pool_id: pool.id, name: "Forest Witch", description: "Potion energy and woodland mystery." },
-    { pool_id: pool.id, name: "Dragon Tamer", description: "Scales, leather, and dangerous confidence." },
-    { pool_id: pool.id, name: "Royal Bard", description: "Music, drama, and too much charisma." }
+    { pool_id: pool.id, name: "Il Cavaliere d'Argento", description: "Armatura, mantello e sguardo da leggenda." },
+    { pool_id: pool.id, name: "La Strega del Bosco", description: "Pozioni, mistero e sentieri dimenticati." },
+    { pool_id: pool.id, name: "Il Domatore di Draghi", description: "Scaglie, cuoio e coraggio temerario." },
+    { pool_id: pool.id, name: "Il Bardo Reale", description: "Canti, dramma e carisma da sala del trono." }
   ]);
 
   revalidatePath("/admin");

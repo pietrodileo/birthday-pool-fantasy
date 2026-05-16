@@ -37,23 +37,23 @@ export default async function AdminPage() {
     <main className="shell">
       <div className="topbar">
         <div>
-          <span className="eyebrow">Admin panel</span>
-          <h1>Manage the pool and the ballot.</h1>
+          <span className="eyebrow">Sala del Custode</span>
+          <h1>Governa il concilio e l'urna.</h1>
         </div>
         <form action={logout}>
           <button className="button secondary" type="submit">
-            Logout
+            Esci
           </button>
         </form>
       </div>
 
       {!pool ? (
         <section className="panel stack">
-          <h2>No open pool</h2>
+          <h2>Nessun concilio aperto</h2>
           <form className="grid" action={createNewPool}>
-            <input name="name" placeholder="Birthday Costume Pool" required />
+            <input name="name" placeholder="Concilio dei Costumi" required />
             <button className="button" type="submit">
-              Create pool
+              Crea concilio
             </button>
           </form>
         </section>
@@ -63,45 +63,45 @@ export default async function AdminPage() {
             <h2>{pool.name}</h2>
             <form className="grid" action={updatePoolSettings}>
               <label className="field">
-                <span>Pool name</span>
+                <span>Nome del concilio</span>
                 <input name="name" defaultValue={pool.name} required />
               </label>
               <label className="toggle">
                 <input name="registrationOpen" type="checkbox" defaultChecked={pool.registration_open} />
-                Registration open
+                Iscrizioni aperte
               </label>
               <label className="toggle">
                 <input name="votingOpen" type="checkbox" defaultChecked={pool.voting_open} />
-                Voting open
+                Urna aperta
               </label>
               <label className="toggle">
                 <input name="resultsVisible" type="checkbox" defaultChecked={pool.results_visible} />
-                Results visible to participants
+                Cronache visibili ai partecipanti
               </label>
               <button className="button" type="submit">
-                Save pool settings
+                Salva editti
               </button>
             </form>
             <div className="actions">
               <form action={resetPoolVotes}>
                 <button className="button danger" type="submit">
-                  Reset votes to zero
+                  Azzera l'urna
                 </button>
               </form>
               <form className="actions" action={createNewPool}>
-                <input name="name" placeholder="New pool name" required />
+                <input name="name" placeholder="Nome del nuovo concilio" required />
                 <button className="button secondary" type="submit">
-                  Create new pool
+                  Crea nuovo concilio
                 </button>
               </form>
               <Link className="button secondary" href="/admin/download">
-                Download votes CSV
+                Scarica cronache CSV
               </Link>
             </div>
           </section>
 
           <section className="panel stack">
-            <h2>Results</h2>
+            <h2>Esito dell'urna</h2>
             {results.map((row, index) => (
               <div className="bar-row" key={row.costume_id}>
                 <span className="index-badge">{index + 1}</span>
@@ -115,18 +115,18 @@ export default async function AdminPage() {
           </section>
 
           <section className="panel stack">
-            <h2>Registered participants</h2>
+            <h2>Compagnia iscritta</h2>
             <div className="table-wrap">
               <table className="table">
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Registration</th>
-                    <th>Vote</th>
-                    <th>Name</th>
-                    <th>Character</th>
-                    <th>Chosen costume</th>
-                    <th>Voted at</th>
+                    <th>Iscrizione</th>
+                    <th>Voto</th>
+                    <th>Nome</th>
+                    <th>Personaggio</th>
+                    <th>Costume scelto</th>
+                    <th>Ora del voto</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -135,12 +135,12 @@ export default async function AdminPage() {
                       <td>{index + 1}</td>
                       <td>
                         <span className={row.character_name ? "badge success" : "badge"}>
-                          {row.character_name ? "Registered" : "Missing"}
+                          {row.character_name ? "Iscritto" : "Mancante"}
                         </span>
                       </td>
                       <td>
                         <span className={row.costume_name ? "badge success" : "badge"}>
-                          {row.costume_name ? "Voted" : "Pending"}
+                          {row.costume_name ? "Ha votato" : "In attesa"}
                         </span>
                       </td>
                       <td>{row.display_name}</td>
@@ -155,13 +155,13 @@ export default async function AdminPage() {
           </section>
 
           <section className="panel stack">
-            <h2>Guests</h2>
+            <h2>Invitati</h2>
             <form className="grid" action={addParticipant}>
-              <input name="displayName" placeholder="Guest name" required />
-              <input name="characterName" placeholder="Costume name optional" />
-              <input name="code" placeholder="Private code" required />
+              <input name="displayName" placeholder="Nome dell'invitato" required />
+              <input name="characterName" placeholder="Nome costume opzionale" />
+              <input name="code" placeholder="Codice segreto" required />
               <button className="button" type="submit">
-                Add guest
+                Aggiungi invitato
               </button>
             </form>
 
@@ -172,20 +172,20 @@ export default async function AdminPage() {
                   <form className="admin-row-form" action={updateParticipant}>
                     <input type="hidden" name="id" value={participant.id} />
                     <input name="displayName" defaultValue={participant.display_name} required />
-                    <input name="characterName" defaultValue={participant.character_name ?? ""} placeholder="Costume name" />
-                    <input name="code" placeholder="New code optional" />
+                    <input name="characterName" defaultValue={participant.character_name ?? ""} placeholder="Nome costume" />
+                    <input name="code" placeholder="Nuovo codice opzionale" />
                     <label className="toggle">
                       <input name="active" type="checkbox" defaultChecked={participant.active} />
-                      Active
+                      Attivo
                     </label>
                     <button className="button secondary" type="submit">
-                      Save
+                      Salva
                     </button>
                   </form>
                   <form action={resetParticipantVote}>
                     <input type="hidden" name="participantId" value={participant.id} />
                     <button className="button danger" type="submit">
-                      Reset vote
+                      Azzera voto
                     </button>
                   </form>
                 </div>
@@ -194,12 +194,12 @@ export default async function AdminPage() {
           </section>
 
           <section className="panel stack">
-            <h2>Costumes</h2>
+            <h2>Costumi</h2>
             <form className="grid" action={addCostume}>
-              <input name="name" placeholder="Costume name" required />
-              <input name="description" placeholder="Short description" />
+              <input name="name" placeholder="Nome del costume" required />
+              <input name="description" placeholder="Breve descrizione" />
               <button className="button" type="submit">
-                Add costume
+                Aggiungi costume
               </button>
             </form>
 
@@ -210,13 +210,13 @@ export default async function AdminPage() {
                   <input type="hidden" name="id" value={costume.id} />
                   <input name="name" defaultValue={costume.name} required />
                   <input name="description" defaultValue={costume.description ?? ""} />
-                  <span className="muted">{costume.owner_name ? `By ${costume.owner_name}` : "Admin entry"}</span>
+                  <span className="muted">{costume.owner_name ? `Di ${costume.owner_name}` : "Voce del Custode"}</span>
                   <label className="toggle">
                     <input name="active" type="checkbox" defaultChecked={costume.active} />
-                    Active
+                    Attivo
                   </label>
                   <button className="button secondary" type="submit">
-                    Save
+                    Salva
                   </button>
                 </form>
               ))}

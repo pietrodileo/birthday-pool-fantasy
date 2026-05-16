@@ -12,13 +12,13 @@ export async function GET() {
   const session = await getSession();
 
   if (!session || session.role !== "admin") {
-    return new NextResponse("Unauthorized", { status: 401 });
+    return new NextResponse("Accesso negato", { status: 401 });
   }
 
   const pool = await getActivePool();
   const rows = await getParticipantVotes();
   const csv = [
-    ["pool_id", "pool_name", "participant_name", "character_name", "vote", "voted_at"].map(csvCell).join(","),
+    ["id_concilio", "nome_concilio", "partecipante", "personaggio", "voto", "votato_il"].map(csvCell).join(","),
     ...rows.map((row) =>
       [
         pool?.id ?? "",
@@ -36,7 +36,7 @@ export async function GET() {
   return new NextResponse(csv, {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",
-      "Content-Disposition": `attachment; filename="${pool?.name ?? "pool"}-votes.csv"`
+      "Content-Disposition": `attachment; filename="${pool?.name ?? "concilio"}-voti.csv"`
     }
   });
 }

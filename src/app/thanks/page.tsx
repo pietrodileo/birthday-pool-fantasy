@@ -18,18 +18,18 @@ export default async function ThanksPage() {
   return (
     <main className="shell">
       <section className="panel stack">
-        <span className="eyebrow">Vote recorded</span>
-        <h1>Thanks, {session.displayName}.</h1>
+        <span className="eyebrow">Voto inciso</span>
+        <h1>Onore a te, {session.displayName}.</h1>
         <p className="lede">
-          Your vote has been sealed{vote ? " and cannot be cast again from this account" : ""}.
+          La tua runa e stata sigillata{vote ? " e da questo account non potra essere deposta di nuovo" : ""}.
         </p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
           <Link className="button" href="/results">
-            See results
+            Consulta le cronache
           </Link>
           <form action={logout}>
             <button className="button secondary" type="submit">
-              Logout
+              Esci
             </button>
           </form>
         </div>

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Birthday Fantasy Pool",
-  description: "A tiny costume voting app for a medieval fantasy birthday party."
+  title: "Concilio dei Costumi",
+  description: "Una piccola arena di voto per eleggere il costume piu glorioso del reame."
 };
 
 export default function RootLayout({
@@ -11,7 +11,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="it">
       <head>
         <link rel="stylesheet" href="/styles.css" />
       </head>

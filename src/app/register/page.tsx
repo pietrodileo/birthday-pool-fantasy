@@ -28,40 +28,40 @@ export default async function RegisterPage({
     <main className="shell">
       <div className="topbar">
         <div>
-          <span className="eyebrow">{pool?.name ?? "No open pool"}</span>
-          <h1>Register your costume.</h1>
+          <span className="eyebrow">{pool?.name ?? "Nessun concilio aperto"}</span>
+          <h1>Iscrivi il tuo costume alle cronache.</h1>
         </div>
         <Link className="button secondary" href="/vote">
-          Back to pool
+          Torna al concilio
         </Link>
       </div>
 
       <form className="panel stack" action={registerParticipant} style={{ maxWidth: 620 }}>
         <h2>{session.displayName}</h2>
-        <p className="muted">This is how your costume will appear on the ballot.</p>
-        {registrationClosed ? <p className="error">Registration is closed right now.</p> : null}
-        {params.error === "missing" ? <p className="error">Add a costume name before saving.</p> : null}
-        {params.error === "failed" ? <p className="error">Registration failed. Try again.</p> : null}
+        <p className="muted">Cosi il tuo costume apparira sulla pergamena del voto.</p>
+        {registrationClosed ? <p className="error">Le iscrizioni sono chiuse: il portale tace.</p> : null}
+        {params.error === "missing" ? <p className="error">Dai un nome al tuo costume prima di sigillare.</p> : null}
+        {params.error === "failed" ? <p className="error">L'iscrizione non e riuscita. Ritenta, viandante.</p> : null}
         <label className="field">
-          <span>Costume / character name</span>
+          <span>Nome del costume / personaggio</span>
           <input
             name="characterName"
-            placeholder="Otharin the Black Wizard"
+            placeholder="Otharin il Mago Nero"
             defaultValue={participant?.character_name ?? ""}
             disabled={registrationClosed}
             required
           />
         </label>
         <label className="field">
-          <span>Short description</span>
+          <span>Breve descrizione</span>
           <textarea
             name="description"
-            placeholder="Black robe, staff, ancient forbidden vibes"
+            placeholder="Veste nera, bastone antico, aura da sortilegio proibito"
             disabled={registrationClosed}
           />
         </label>
         <button className="button" type="submit" disabled={registrationClosed}>
-          Save registration
+          Sigilla iscrizione
         </button>
       </form>
     </main>

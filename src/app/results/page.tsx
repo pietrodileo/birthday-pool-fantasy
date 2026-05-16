@@ -12,11 +12,11 @@ export default async function ResultsPage() {
     return (
       <main className="shell">
         <section className="panel stack">
-          <span className="eyebrow">{pool?.name ?? "Birthday fantasy pool"}</span>
-          <h1>Results are still hidden.</h1>
-          <p className="lede">The standings will appear here when the admin publishes them.</p>
+          <span className="eyebrow">{pool?.name ?? "Concilio dei costumi"}</span>
+          <h1>Le cronache sono ancora velate.</h1>
+          <p className="lede">La classifica apparira quando il Custode sciogliera il sigillo.</p>
           <Link className="button" href="/login">
-            Back
+            Indietro
           </Link>
         </section>
       </main>
@@ -30,11 +30,11 @@ export default async function ResultsPage() {
     <main className="shell">
       <div className="topbar">
         <div>
-          <span className="eyebrow">{totalVotes} votes cast</span>
-          <h1>The current standings.</h1>
+          <span className="eyebrow">{totalVotes} voti deposti</span>
+          <h1>Le cronache del concilio.</h1>
         </div>
         <Link className="button secondary" href="/login">
-          Back
+          Indietro
         </Link>
       </div>
 
@@ -43,7 +43,7 @@ export default async function ResultsPage() {
           <div className="bar-row" key={row.costume_id}>
             <span className="index-badge">{index + 1}</span>
             <strong>{row.costume_name}</strong>
-            <div className="bar-track" aria-label={`${row.vote_count} votes`}>
+            <div className="bar-track" aria-label={`${row.vote_count} voti`}>
               <div
                 className="bar-fill"
                 style={{

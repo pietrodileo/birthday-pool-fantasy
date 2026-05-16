@@ -33,31 +33,32 @@ export default async function VotePage({
     <main className="shell">
       <div className="topbar">
         <div>
-          <span className="eyebrow">Welcome, {session.displayName}</span>
-          <h1>{pool?.voting_open ? "Choose the champion." : "Register, then await the ballot."}</h1>
+          <span className="eyebrow">Benvenuto, {session.displayName}</span>
+          <h1>{pool?.voting_open ? "Scegli il campione del reame." : "Iscriviti, poi attendi il richiamo dell'urna."}</h1>
         </div>
         <form action={logout}>
           <button className="button secondary" type="submit">
-            Logout
+            Esci
           </button>
         </form>
       </div>
 
       <form className="stack" action={castVote}>
-        {params.registered ? <p className="error">Your costume registration is saved.</p> : null}
+        {params.registered ? <p className="error">La tua iscrizione e stata sigillata negli annali.</p> : null}
         <div className="panel stack">
-          <h2>Your registration</h2>
+          <h2>La tua iscrizione</h2>
           <p className="muted">
             {participant?.character_name
-              ? `Registered as ${participant.character_name}.`
-              : "Register your costume before voting opens so it appears in the pool."}
+              ? `Sei iscritto come ${participant.character_name}.`
+              : "Iscrivi il tuo costume prima che l'urna venga aperta, cosi apparira nel concilio."}
           </p>
+          <p className="muted">Che il tuo nome sia ricordato tra torce, canti e antiche promesse.</p>
           <a className="button secondary" href="/register">
-            {participant?.character_name ? "Edit costume registration" : "Register for the pool"}
+            {participant?.character_name ? "Modifica iscrizione" : "Iscriviti al concilio"}
           </a>
         </div>
-        {params.error ? <p className="error">Your vote was not saved. You may have already voted.</p> : null}
-        {!pool?.voting_open ? <p className="error">Voting is disabled until the admin opens the ballot.</p> : null}
+        {params.error ? <p className="error">Il voto non e stato inciso. Forse hai gia parlato all'urna.</p> : null}
+        {!pool?.voting_open ? <p className="error">L'urna e ancora chiusa: il Custode non ha dato il segnale.</p> : null}
         <div className="grid">
           {costumes.map((costume, index) => (
             <label className="card choice" key={costume.id}>
@@ -65,19 +66,19 @@ export default async function VotePage({
               <input name="costumeId" type="radio" value={costume.id} disabled={!pool?.voting_open} required />
               <strong>{costume.name}</strong>
               <span className="muted">
-                {costume.owner_name ? `${costume.owner_name}` : "Admin entry"}
+                {costume.owner_name ? `${costume.owner_name}` : "Voce del Custode"}
                 {costume.description ? ` - ${costume.description}` : ""}
               </span>
             </label>
           ))}
         </div>
         <button className="button" type="submit" disabled={!pool?.voting_open}>
-          Seal the vote
+          Sigilla il voto
         </button>
       </form>
 
       <p className="muted" style={{ marginTop: 20 }}>
-        Curious already? <Link href="/results">View the current results</Link>.
+        La curiosita ti chiama? <Link href="/results">Consulta le cronache</Link>.
       </p>
     </main>
   );
