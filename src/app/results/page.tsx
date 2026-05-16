@@ -1,10 +1,28 @@
 import Link from "next/link";
-import { getResults } from "@/lib/data";
+import { getActivePool, getResults } from "@/lib/data";
+import { getSession } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
 export default async function ResultsPage() {
-  const results = await getResults();
+  const [pool, session, results] = await Promise.all([getActivePool(), getSession(), getResults()]);
+  const canSeeResults = session?.role === "admin" || Boolean(pool?.results_visible);
+
+  if (!canSeeResults) {
+    return (
+      <main className="shell">
+        <section className="panel stack">
+          <span className="eyebrow">{pool?.name ?? "Birthday fantasy pool"}</span>
+          <h1>Results are still hidden.</h1>
+          <p className="lede">The standings will appear here when the admin publishes them.</p>
+          <Link className="button" href="/login">
+            Back
+          </Link>
+        </section>
+      </main>
+    );
+  }
+
   const totalVotes = results.reduce((sum, row) => sum + row.vote_count, 0);
   const maxVotes = Math.max(1, ...results.map((row) => row.vote_count));
 

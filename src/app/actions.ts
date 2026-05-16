@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { hashSecret, verifySecret } from "@/lib/crypto";
+import { getActivePool } from "@/lib/data";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { clearSession, getSession, setSession } from "@/lib/session";
 
@@ -20,13 +21,55 @@ async function requireAdmin() {
   return session;
 }
 
+async function requireActivePool() {
+  const pool = await getActivePool();
+
+  if (!pool) {
+    redirect("/login?error=no-pool");
+  }
+
+  return pool;
+}
+
+export async function registerParticipant(formData: FormData) {
+  const pool = await requireActivePool();
+
+  if (!pool.registration_open) {
+    redirect("/register?error=closed");
+  }
+
+  const displayName = value(formData, "displayName");
+  const characterName = value(formData, "characterName");
+  const code = value(formData, "code");
+
+  if (!displayName || !characterName || !code) {
+    redirect("/register?error=missing");
+  }
+
+  const supabase = getSupabaseAdmin();
+  const { error } = await supabase.from("participants").insert({
+    pool_id: pool.id,
+    display_name: displayName,
+    character_name: characterName,
+    login_code_hash: hashSecret(code)
+  });
+
+  if (error) {
+    redirect("/register?error=failed");
+  }
+
+  redirect("/login?registered=1");
+}
+
 export async function loginGuest(formData: FormData) {
+  const pool = await requireActivePool();
   const participantId = value(formData, "participantId");
   const code = value(formData, "code");
   const supabase = getSupabaseAdmin();
   const { data: participant } = await supabase
     .from("participants")
-    .select("id, display_name, active, login_code_hash")
+    .select("id, pool_id, display_name, character_name, active, login_code_hash")
+    .eq("pool_id", pool.id)
     .eq("id", participantId)
     .maybeSingle();
 
@@ -78,9 +121,16 @@ export async function castVote(formData: FormData) {
     redirect("/login");
   }
 
+  const pool = await requireActivePool();
+
+  if (!pool.voting_open) {
+    redirect("/vote?error=voting-closed");
+  }
+
   const costumeId = value(formData, "costumeId");
   const supabase = getSupabaseAdmin();
   const { error } = await supabase.from("votes").insert({
+    pool_id: pool.id,
     participant_id: session.participantId,
     costume_id: costumeId
   });
@@ -92,18 +142,85 @@ export async function castVote(formData: FormData) {
   redirect("/thanks");
 }
 
+export async function updatePoolSettings(formData: FormData) {
+  await requireAdmin();
+  const pool = await requireActivePool();
+  const supabase = getSupabaseAdmin();
+
+  await supabase
+    .from("pools")
+    .update({
+      name: value(formData, "name") || pool.name,
+      registration_open: formData.get("registrationOpen") === "on",
+      voting_open: formData.get("votingOpen") === "on",
+      results_visible: formData.get("resultsVisible") === "on"
+    })
+    .eq("id", pool.id);
+
+  revalidatePath("/admin");
+  redirect("/admin");
+}
+
+export async function resetPoolVotes() {
+  await requireAdmin();
+  const pool = await requireActivePool();
+  const supabase = getSupabaseAdmin();
+  await supabase.from("votes").delete().eq("pool_id", pool.id);
+
+  revalidatePath("/admin");
+  redirect("/admin");
+}
+
+export async function createNewPool(formData: FormData) {
+  await requireAdmin();
+  const name = value(formData, "name") || `Costume Pool ${new Date().toLocaleDateString("en-GB")}`;
+  const supabase = getSupabaseAdmin();
+
+  await supabase.from("pools").update({ is_open: false, voting_open: false, results_visible: false }).eq("is_open", true);
+
+  const { data: pool, error } = await supabase
+    .from("pools")
+    .insert({
+      name,
+      is_open: true,
+      registration_open: true,
+      voting_open: false,
+      results_visible: false
+    })
+    .select("id")
+    .single();
+
+  if (error || !pool) {
+    redirect("/admin?error=pool-create");
+  }
+
+  await supabase.from("costumes").insert([
+    { pool_id: pool.id, name: "The Silver Knight", description: "Armor, cloak, noble stare." },
+    { pool_id: pool.id, name: "Forest Witch", description: "Potion energy and woodland mystery." },
+    { pool_id: pool.id, name: "Dragon Tamer", description: "Scales, leather, and dangerous confidence." },
+    { pool_id: pool.id, name: "Royal Bard", description: "Music, drama, and too much charisma." }
+  ]);
+
+  revalidatePath("/admin");
+  redirect("/admin");
+}
+
 export async function addParticipant(formData: FormData) {
   await requireAdmin();
+  const pool = await requireActivePool();
   const displayName = value(formData, "displayName");
+  const characterName = value(formData, "characterName");
   const code = value(formData, "code");
 
-  if (!displayName || !code) {
+  if (!displayName || !characterName || !code) {
     redirect("/admin?error=missing-participant");
   }
 
   const supabase = getSupabaseAdmin();
   await supabase.from("participants").insert({
+    pool_id: pool.id,
     display_name: displayName,
+    character_name: characterName,
     login_code_hash: hashSecret(code)
   });
 
@@ -113,13 +230,16 @@ export async function addParticipant(formData: FormData) {
 
 export async function updateParticipant(formData: FormData) {
   await requireAdmin();
+  const pool = await requireActivePool();
   const id = value(formData, "id");
   const displayName = value(formData, "displayName");
+  const characterName = value(formData, "characterName");
   const active = formData.get("active") === "on";
   const code = value(formData, "code");
   const supabase = getSupabaseAdmin();
-  const patch: { display_name: string; active: boolean; login_code_hash?: string } = {
+  const patch: { display_name: string; character_name: string; active: boolean; login_code_hash?: string } = {
     display_name: displayName,
+    character_name: characterName,
     active
   };
 
@@ -127,7 +247,7 @@ export async function updateParticipant(formData: FormData) {
     patch.login_code_hash = hashSecret(code);
   }
 
-  await supabase.from("participants").update(patch).eq("id", id);
+  await supabase.from("participants").update(patch).eq("pool_id", pool.id).eq("id", id);
 
   revalidatePath("/admin");
   redirect("/admin");
@@ -135,9 +255,10 @@ export async function updateParticipant(formData: FormData) {
 
 export async function resetParticipantVote(formData: FormData) {
   await requireAdmin();
+  const pool = await requireActivePool();
   const participantId = value(formData, "participantId");
   const supabase = getSupabaseAdmin();
-  await supabase.from("votes").delete().eq("participant_id", participantId);
+  await supabase.from("votes").delete().eq("pool_id", pool.id).eq("participant_id", participantId);
 
   revalidatePath("/admin");
   redirect("/admin");
@@ -145,6 +266,7 @@ export async function resetParticipantVote(formData: FormData) {
 
 export async function addCostume(formData: FormData) {
   await requireAdmin();
+  const pool = await requireActivePool();
   const name = value(formData, "name");
   const description = value(formData, "description");
 
@@ -153,7 +275,7 @@ export async function addCostume(formData: FormData) {
   }
 
   const supabase = getSupabaseAdmin();
-  await supabase.from("costumes").insert({ name, description });
+  await supabase.from("costumes").insert({ pool_id: pool.id, name, description });
 
   revalidatePath("/admin");
   redirect("/admin");
@@ -161,13 +283,14 @@ export async function addCostume(formData: FormData) {
 
 export async function updateCostume(formData: FormData) {
   await requireAdmin();
+  const pool = await requireActivePool();
   const id = value(formData, "id");
   const name = value(formData, "name");
   const description = value(formData, "description");
   const active = formData.get("active") === "on";
   const supabase = getSupabaseAdmin();
 
-  await supabase.from("costumes").update({ name, description, active }).eq("id", id);
+  await supabase.from("costumes").update({ name, description, active }).eq("pool_id", pool.id).eq("id", id);
 
   revalidatePath("/admin");
   redirect("/admin");

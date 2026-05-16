@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { castVote, logout } from "@/app/actions";
-import { getActiveCostumes, getParticipantVote } from "@/lib/data";
+import { getActiveCostumes, getActivePool, getParticipantVote } from "@/lib/data";
 import { getSession } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
@@ -17,7 +17,8 @@ export default async function VotePage({
     redirect("/login");
   }
 
-  const [costumes, vote, params] = await Promise.all([
+  const [pool, costumes, vote, params] = await Promise.all([
+    getActivePool(),
     getActiveCostumes(),
     getParticipantVote(session.participantId),
     searchParams
@@ -32,7 +33,7 @@ export default async function VotePage({
       <div className="topbar">
         <div>
           <span className="eyebrow">Welcome, {session.displayName}</span>
-          <h1>Choose the champion.</h1>
+          <h1>{pool?.voting_open ? "Choose the champion." : "The ballot is not open yet."}</h1>
         </div>
         <form action={logout}>
           <button className="button secondary" type="submit">
@@ -43,16 +44,17 @@ export default async function VotePage({
 
       <form className="stack" action={castVote}>
         {params.error ? <p className="error">Your vote was not saved. You may have already voted.</p> : null}
+        {!pool?.voting_open ? <p className="error">Voting is disabled until the admin opens the ballot.</p> : null}
         <div className="grid">
           {costumes.map((costume) => (
             <label className="card choice" key={costume.id}>
-              <input name="costumeId" type="radio" value={costume.id} required />
+              <input name="costumeId" type="radio" value={costume.id} disabled={!pool?.voting_open} required />
               <strong>{costume.name}</strong>
               <span className="muted">{costume.description}</span>
             </label>
           ))}
         </div>
-        <button className="button" type="submit">
+        <button className="button" type="submit" disabled={!pool?.voting_open}>
           Seal the vote
         </button>
       </form>

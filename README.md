@@ -19,7 +19,7 @@ npm install
 ```
 
 3. Create a Supabase project.
-4. In Supabase SQL Editor, run `supabase/migrations/001_initial.sql`.
+4. In Supabase SQL Editor, run the files in `supabase/migrations/` in order.
 5. Copy `.env.example` to `.env.local` and fill the values.
 6. Run:
 
@@ -36,7 +36,7 @@ Admin:
 
 Change this immediately from Supabase or by adding an admin-edit screen later.
 
-Seeded guest codes:
+Seeded guest codes for the initial pool:
 
 | Guest | Code |
 | --- | --- |
@@ -52,3 +52,14 @@ Seeded guest codes:
 ## Deploy
 
 Deploy on Vercel, then add the same environment variables in the Vercel project settings.
+
+## Pool controls
+
+The admin panel can:
+
+- open or close registration
+- open or close voting
+- hide or publish results for participants
+- reset votes for the current pool
+- create a new active pool
+- download votes as CSV
