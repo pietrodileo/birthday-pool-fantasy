@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { castVote, logout } from "@/app/actions";
-import { getActiveCostumes, getActivePool, getParticipantVote } from "@/lib/data";
+import { getActiveCostumes, getActivePool, getParticipant, getParticipantVote } from "@/lib/data";
 import { getSession } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export default async function VotePage({
   searchParams
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; registered?: string }>;
 }) {
   const session = await getSession();
 
@@ -17,8 +17,9 @@ export default async function VotePage({
     redirect("/login");
   }
 
-  const [pool, costumes, vote, params] = await Promise.all([
+  const [pool, participant, costumes, vote, params] = await Promise.all([
     getActivePool(),
+    getParticipant(session.participantId),
     getActiveCostumes(),
     getParticipantVote(session.participantId),
     searchParams
@@ -33,7 +34,7 @@ export default async function VotePage({
       <div className="topbar">
         <div>
           <span className="eyebrow">Welcome, {session.displayName}</span>
-          <h1>{pool?.voting_open ? "Choose the champion." : "The ballot is not open yet."}</h1>
+          <h1>{pool?.voting_open ? "Choose the champion." : "Register, then await the ballot."}</h1>
         </div>
         <form action={logout}>
           <button className="button secondary" type="submit">
@@ -43,6 +44,18 @@ export default async function VotePage({
       </div>
 
       <form className="stack" action={castVote}>
+        {params.registered ? <p className="error">Your costume registration is saved.</p> : null}
+        <div className="panel stack">
+          <h2>Your registration</h2>
+          <p className="muted">
+            {participant?.character_name
+              ? `Registered as ${participant.character_name}.`
+              : "Register your costume before voting opens so it appears in the pool."}
+          </p>
+          <a className="button secondary" href="/register">
+            {participant?.character_name ? "Edit costume registration" : "Register for the pool"}
+          </a>
+        </div>
         {params.error ? <p className="error">Your vote was not saved. You may have already voted.</p> : null}
         {!pool?.voting_open ? <p className="error">Voting is disabled until the admin opens the ballot.</p> : null}
         <div className="grid">
@@ -50,7 +63,10 @@ export default async function VotePage({
             <label className="card choice" key={costume.id}>
               <input name="costumeId" type="radio" value={costume.id} disabled={!pool?.voting_open} required />
               <strong>{costume.name}</strong>
-              <span className="muted">{costume.description}</span>
+              <span className="muted">
+                {costume.owner_name ? `${costume.owner_name}` : "Admin entry"}
+                {costume.description ? ` - ${costume.description}` : ""}
+              </span>
             </label>
           ))}
         </div>

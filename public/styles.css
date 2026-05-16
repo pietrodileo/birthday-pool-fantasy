@@ -345,7 +345,7 @@ textarea:disabled {
 
 .admin-row-form {
   display: grid;
-  grid-template-columns: minmax(140px, 1fr) minmax(160px, 1fr) minmax(130px, 0.8fr) auto auto;
+  grid-template-columns: minmax(140px, 1fr) minmax(160px, 1fr) minmax(130px, 0.8fr) minmax(90px, 0.6fr) auto auto;
   gap: 8px;
   align-items: center;
 }

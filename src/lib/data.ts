@@ -89,7 +89,7 @@ export async function getActiveCostumes() {
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
     .from("costumes")
-    .select("id, pool_id, name, description, active")
+    .select("id, pool_id, participant_id, name, description, active, participants(display_name)")
     .eq("pool_id", pool.id)
     .eq("active", true)
     .order("name");
@@ -98,7 +98,10 @@ export async function getActiveCostumes() {
     throw error;
   }
 
-  return data as Costume[];
+  return data.map((costume) => ({
+    ...costume,
+    owner_name: (costume.participants as { display_name?: string } | null)?.display_name ?? null
+  })) as Costume[];
 }
 
 export async function getAllCostumes(poolId?: string) {
@@ -111,7 +114,7 @@ export async function getAllCostumes(poolId?: string) {
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
     .from("costumes")
-    .select("id, pool_id, name, description, active")
+    .select("id, pool_id, participant_id, name, description, active, participants(display_name)")
     .eq("pool_id", pool.id)
     .order("name");
 
@@ -119,7 +122,32 @@ export async function getAllCostumes(poolId?: string) {
     throw error;
   }
 
-  return data as Costume[];
+  return data.map((costume) => ({
+    ...costume,
+    owner_name: (costume.participants as { display_name?: string } | null)?.display_name ?? null
+  })) as Costume[];
+}
+
+export async function getParticipant(participantId: string) {
+  const pool = await getActivePool();
+
+  if (!pool) {
+    return null;
+  }
+
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase
+    .from("participants")
+    .select("id, pool_id, display_name, character_name, active, login_code_hash")
+    .eq("pool_id", pool.id)
+    .eq("id", participantId)
+    .maybeSingle();
+
+  if (error) {
+    throw error;
+  }
+
+  return data as Participant | null;
 }
 
 export async function getParticipantVote(participantId: string) {

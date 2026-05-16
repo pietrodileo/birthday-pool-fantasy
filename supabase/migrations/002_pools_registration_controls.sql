@@ -19,7 +19,8 @@ alter table public.participants
   add column if not exists character_name text;
 
 alter table public.costumes
-  add column if not exists pool_id uuid references public.pools(id) on delete cascade;
+  add column if not exists pool_id uuid references public.pools(id) on delete cascade,
+  add column if not exists participant_id uuid references public.participants(id) on delete set null;
 
 alter table public.votes
   add column if not exists pool_id uuid references public.pools(id) on delete cascade;
@@ -59,3 +60,7 @@ create unique index if not exists votes_one_per_participant_per_pool
 create unique index if not exists one_open_pool
   on public.pools(is_open)
   where is_open = true;
+
+create unique index if not exists one_costume_per_participant_per_pool
+  on public.costumes(pool_id, participant_id)
+  where participant_id is not null;

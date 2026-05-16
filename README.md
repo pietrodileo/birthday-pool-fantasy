@@ -63,3 +63,9 @@ The admin panel can:
 - reset votes for the current pool
 - create a new active pool
 - download votes as CSV
+
+Guest flow:
+
+1. Login with invited name and private code.
+2. Register or edit the costume from the pool page.
+3. Vote when the admin opens voting.

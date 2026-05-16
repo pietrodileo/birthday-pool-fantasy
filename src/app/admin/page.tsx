@@ -119,10 +119,11 @@ export default async function AdminPage() {
               <table className="table">
                 <thead>
                   <tr>
-                    <th>Status</th>
+                    <th>Registration</th>
+                    <th>Vote</th>
                     <th>Name</th>
                     <th>Character</th>
-                    <th>Vote</th>
+                    <th>Chosen costume</th>
                     <th>Voted at</th>
                   </tr>
                 </thead>
@@ -130,7 +131,14 @@ export default async function AdminPage() {
                   {participantVotes.map((row) => (
                     <tr key={row.participant_id}>
                       <td>
-                        <span className={row.costume_name ? "badge success" : "badge"}>{row.costume_name ? "Voted" : "Pending"}</span>
+                        <span className={row.character_name ? "badge success" : "badge"}>
+                          {row.character_name ? "Registered" : "Missing"}
+                        </span>
+                      </td>
+                      <td>
+                        <span className={row.costume_name ? "badge success" : "badge"}>
+                          {row.costume_name ? "Voted" : "Pending"}
+                        </span>
                       </td>
                       <td>{row.display_name}</td>
                       <td>{row.character_name || "-"}</td>
@@ -147,7 +155,7 @@ export default async function AdminPage() {
             <h2>Guests</h2>
             <form className="grid" action={addParticipant}>
               <input name="displayName" placeholder="Guest name" required />
-              <input name="characterName" placeholder="Character name" required />
+              <input name="characterName" placeholder="Costume name optional" />
               <input name="code" placeholder="Private code" required />
               <button className="button" type="submit">
                 Add guest
@@ -158,10 +166,10 @@ export default async function AdminPage() {
               {participants.map((participant) => (
                 <div className="card" key={participant.id}>
                   <form className="admin-row-form" action={updateParticipant}>
-                    <input type="hidden" name="id" value={participant.id} />
-                    <input name="displayName" defaultValue={participant.display_name} required />
-                    <input name="characterName" defaultValue={participant.character_name ?? ""} required />
-                    <input name="code" placeholder="New code optional" />
+                  <input type="hidden" name="id" value={participant.id} />
+                  <input name="displayName" defaultValue={participant.display_name} required />
+                  <input name="characterName" defaultValue={participant.character_name ?? ""} placeholder="Costume name" />
+                  <input name="code" placeholder="New code optional" />
                     <label className="toggle">
                       <input name="active" type="checkbox" defaultChecked={participant.active} />
                       Active
@@ -197,6 +205,7 @@ export default async function AdminPage() {
                   <input type="hidden" name="id" value={costume.id} />
                   <input name="name" defaultValue={costume.name} required />
                   <input name="description" defaultValue={costume.description ?? ""} />
+                  <span className="muted">{costume.owner_name ? `By ${costume.owner_name}` : "Admin entry"}</span>
                   <label className="toggle">
                     <input name="active" type="checkbox" defaultChecked={costume.active} />
                     Active

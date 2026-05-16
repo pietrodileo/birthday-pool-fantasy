@@ -32,33 +32,58 @@ async function requireActivePool() {
 }
 
 export async function registerParticipant(formData: FormData) {
+  const session = await getSession();
+
+  if (!session || session.role !== "guest") {
+    redirect("/login");
+  }
+
   const pool = await requireActivePool();
 
   if (!pool.registration_open) {
     redirect("/register?error=closed");
   }
 
-  const displayName = value(formData, "displayName");
   const characterName = value(formData, "characterName");
-  const code = value(formData, "code");
+  const description = value(formData, "description");
 
-  if (!displayName || !characterName || !code) {
+  if (!characterName) {
     redirect("/register?error=missing");
   }
 
   const supabase = getSupabaseAdmin();
-  const { error } = await supabase.from("participants").insert({
-    pool_id: pool.id,
-    display_name: displayName,
-    character_name: characterName,
-    login_code_hash: hashSecret(code)
-  });
+  const { error: participantError } = await supabase
+    .from("participants")
+    .update({ character_name: characterName })
+    .eq("pool_id", pool.id)
+    .eq("id", session.participantId);
 
-  if (error) {
+  if (participantError) {
     redirect("/register?error=failed");
   }
 
-  redirect("/login?registered=1");
+  const costumePayload = {
+    pool_id: pool.id,
+    participant_id: session.participantId,
+    name: characterName,
+    description: description || `Costume by ${session.displayName}`,
+    active: true
+  };
+  const { data: existingCostume } = await supabase
+    .from("costumes")
+    .select("id")
+    .eq("pool_id", pool.id)
+    .eq("participant_id", session.participantId)
+    .maybeSingle();
+  const { error: costumeError } = existingCostume
+    ? await supabase.from("costumes").update(costumePayload).eq("id", existingCostume.id)
+    : await supabase.from("costumes").insert(costumePayload);
+
+  if (costumeError) {
+    redirect("/register?error=failed");
+  }
+
+  redirect("/vote?registered=1");
 }
 
 export async function loginGuest(formData: FormData) {
@@ -212,7 +237,7 @@ export async function addParticipant(formData: FormData) {
   const characterName = value(formData, "characterName");
   const code = value(formData, "code");
 
-  if (!displayName || !characterName || !code) {
+  if (!displayName || !code) {
     redirect("/admin?error=missing-participant");
   }
 
@@ -237,9 +262,9 @@ export async function updateParticipant(formData: FormData) {
   const active = formData.get("active") === "on";
   const code = value(formData, "code");
   const supabase = getSupabaseAdmin();
-  const patch: { display_name: string; character_name: string; active: boolean; login_code_hash?: string } = {
+  const patch: { display_name: string; character_name: string | null; active: boolean; login_code_hash?: string } = {
     display_name: displayName,
-    character_name: characterName,
+    character_name: characterName || null,
     active
   };
 

@@ -12,9 +12,11 @@ export type Participant = {
 export type Costume = {
   id: string;
   pool_id: string;
+  participant_id: string | null;
   name: string;
   description: string | null;
   active: boolean;
+  owner_name?: string | null;
 };
 
 export type Pool = {

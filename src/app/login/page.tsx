@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export default async function LoginPage({
   searchParams
 }: {
-  searchParams: Promise<{ error?: string; registered?: string }>;
+  searchParams: Promise<{ error?: string }>;
 }) {
   const [participants, pool, params] = await Promise.all([getActiveParticipants(), getActivePool(), searchParams]);
 
@@ -26,8 +26,7 @@ export default async function LoginPage({
       <div className="split">
         <form className="panel stack" action={loginGuest}>
           <h2>Enter the hall</h2>
-          <p className="muted">Choose your name and use the private code you created during registration.</p>
-          {params.registered ? <p className="error">Registration saved. You can login now.</p> : null}
+          <p className="muted">Choose your name and use your private code. You can register your costume after login.</p>
           {params.error === "no-pool" ? <p className="error">There is no open pool yet.</p> : null}
           {params.error === "invalid" ? <p className="error">Name or code is not valid.</p> : null}
           <label className="field">
@@ -49,16 +48,13 @@ export default async function LoginPage({
           <button className="button" type="submit">
             Continue
           </button>
-          <Link className="button secondary" href="/register">
-            Register for the pool
-          </Link>
         </form>
 
         <section className="panel">
           <h2>One character, one vote</h2>
           <p className="lede">
-            Register your name and character, then return here with your private code. The database accepts one
-            vote per registered participant.
+            Login first, then register your costume for the active pool. The database accepts one vote per
+            participant.
           </p>
         </section>
       </div>
