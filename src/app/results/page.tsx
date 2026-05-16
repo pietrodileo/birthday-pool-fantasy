@@ -39,8 +39,9 @@ export default async function ResultsPage() {
       </div>
 
       <section className="panel stack">
-        {results.map((row) => (
+        {results.map((row, index) => (
           <div className="bar-row" key={row.costume_id}>
+            <span className="index-badge">{index + 1}</span>
             <strong>{row.costume_name}</strong>
             <div className="bar-track" aria-label={`${row.vote_count} votes`}>
               <div

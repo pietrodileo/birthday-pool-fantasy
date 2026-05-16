@@ -59,8 +59,9 @@ export default async function VotePage({
         {params.error ? <p className="error">Your vote was not saved. You may have already voted.</p> : null}
         {!pool?.voting_open ? <p className="error">Voting is disabled until the admin opens the ballot.</p> : null}
         <div className="grid">
-          {costumes.map((costume) => (
+          {costumes.map((costume, index) => (
             <label className="card choice" key={costume.id}>
+              <span className="index-badge">{index + 1}</span>
               <input name="costumeId" type="radio" value={costume.id} disabled={!pool?.voting_open} required />
               <strong>{costume.name}</strong>
               <span className="muted">

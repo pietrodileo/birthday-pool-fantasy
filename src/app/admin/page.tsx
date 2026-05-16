@@ -102,8 +102,9 @@ export default async function AdminPage() {
 
           <section className="panel stack">
             <h2>Results</h2>
-            {results.map((row) => (
+            {results.map((row, index) => (
               <div className="bar-row" key={row.costume_id}>
+                <span className="index-badge">{index + 1}</span>
                 <strong>{row.costume_name}</strong>
                 <div className="bar-track">
                   <div className="bar-fill" style={{ width: `${Math.max(4, (row.vote_count / maxVotes) * 100)}%` }} />
@@ -119,6 +120,7 @@ export default async function AdminPage() {
               <table className="table">
                 <thead>
                   <tr>
+                    <th>#</th>
                     <th>Registration</th>
                     <th>Vote</th>
                     <th>Name</th>
@@ -128,8 +130,9 @@ export default async function AdminPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {participantVotes.map((row) => (
+                  {participantVotes.map((row, index) => (
                     <tr key={row.participant_id}>
+                      <td>{index + 1}</td>
                       <td>
                         <span className={row.character_name ? "badge success" : "badge"}>
                           {row.character_name ? "Registered" : "Missing"}
@@ -163,13 +166,14 @@ export default async function AdminPage() {
             </form>
 
             <div className="stack">
-              {participants.map((participant) => (
+              {participants.map((participant, index) => (
                 <div className="card" key={participant.id}>
+                  <span className="index-badge">{index + 1}</span>
                   <form className="admin-row-form" action={updateParticipant}>
-                  <input type="hidden" name="id" value={participant.id} />
-                  <input name="displayName" defaultValue={participant.display_name} required />
-                  <input name="characterName" defaultValue={participant.character_name ?? ""} placeholder="Costume name" />
-                  <input name="code" placeholder="New code optional" />
+                    <input type="hidden" name="id" value={participant.id} />
+                    <input name="displayName" defaultValue={participant.display_name} required />
+                    <input name="characterName" defaultValue={participant.character_name ?? ""} placeholder="Costume name" />
+                    <input name="code" placeholder="New code optional" />
                     <label className="toggle">
                       <input name="active" type="checkbox" defaultChecked={participant.active} />
                       Active
@@ -200,8 +204,9 @@ export default async function AdminPage() {
             </form>
 
             <div className="stack">
-              {costumes.map((costume) => (
+              {costumes.map((costume, index) => (
                 <form className="card admin-row-form" action={updateCostume} key={costume.id}>
+                  <span className="index-badge">{index + 1}</span>
                   <input type="hidden" name="id" value={costume.id} />
                   <input name="name" defaultValue={costume.name} required />
                   <input name="description" defaultValue={costume.description ?? ""} />
