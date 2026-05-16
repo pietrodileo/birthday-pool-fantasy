@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Birthday Fantasy Pool",
@@ -13,6 +12,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="stylesheet" href="/styles.css" />
+      </head>
       <body>{children}</body>
     </html>
   );
