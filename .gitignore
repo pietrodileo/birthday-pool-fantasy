@@ -8,3 +8,4 @@ dist/
 *.log
 supabase/seed_participants*.sql
 supabase/participant_codes*.csv
+supabase/reset_admin_password.sql
