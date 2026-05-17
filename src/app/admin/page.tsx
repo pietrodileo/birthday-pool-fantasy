@@ -51,7 +51,7 @@ export default async function AdminPage() {
         <section className="panel stack">
           <h2>Nessun concilio aperto</h2>
           <form className="grid" action={createNewPool}>
-            <input name="name" placeholder="Concilio dei Costumi" required />
+            <input name="name" placeholder="Il Gran Ballo del Bosco" required />
             <button className="button" type="submit">
               Crea concilio
             </button>

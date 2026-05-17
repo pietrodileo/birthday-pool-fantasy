@@ -16,7 +16,7 @@ export default async function LoginPage({
     <main className="shell">
       <div className="topbar">
         <div className="brand">
-          <span className="eyebrow">{pool?.name ?? "Concilio dei costumi"}</span>
+          <span className="eyebrow">{pool?.name ?? "Il Gran Ballo del Bosco"}</span>
           <h1>Varca la soglia della sala e prepara il tuo voto.</h1>
         </div>
         <Link className="button secondary" href="/admin/login">

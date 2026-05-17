@@ -17,7 +17,7 @@ export default async function ResultsPage() {
     return (
       <main className="shell">
         <section className="panel stack">
-          <span className="eyebrow">{pool?.name ?? "Concilio dei costumi"}</span>
+          <span className="eyebrow">{pool?.name ?? "Il Gran Ballo del Bosco"}</span>
           <h1>Le cronache sono ancora velate.</h1>
           <p className="lede">La classifica apparirà quando il Custode scioglierà il sigillo.</p>
           <Link className="button" href="/login">

@@ -198,7 +198,7 @@ export async function resetPoolVotes() {
 
 export async function createNewPool(formData: FormData) {
   await requireAdmin();
-  const name = value(formData, "name") || `Concilio dei Costumi ${new Date().toLocaleDateString("it-IT")}`;
+  const name = value(formData, "name") || `Il Gran Ballo del Bosco ${new Date().toLocaleDateString("it-IT")}`;
   const supabase = getSupabaseAdmin();
 
   await supabase.from("pools").update({ is_open: false, voting_open: false, results_visible: false }).eq("is_open", true);

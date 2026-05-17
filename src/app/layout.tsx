@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Concilio dei Costumi",
-  description: "Una piccola arena di voto per eleggere il costume più glorioso del reame."
+  title: "Il Gran Ballo del Bosco",
+  description: "Una piccola arena di voto per eleggere il costume più glorioso del bosco."
 };
 
 export default function RootLayout({
