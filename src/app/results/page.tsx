@@ -26,6 +26,8 @@ export default async function ResultsPage() {
 
   const totalVotes = results.reduce((sum, row) => sum + row.vote_count, 0);
   const maxVotes = Math.max(1, ...results.map((row) => row.vote_count));
+  const winningVotes = Math.max(0, ...results.map((row) => row.vote_count));
+  const winners = winningVotes > 0 ? results.filter((row) => row.vote_count === winningVotes) : [];
 
   return (
     <main className="shell">
@@ -40,7 +42,23 @@ export default async function ResultsPage() {
       </div>
 
       <section className="panel stack">
-        <MageGuide greeting="Le cronache parlano." message="Ogni barra è una traccia lasciata nell'urna del concilio." />
+        <MageGuide
+          greeting="Le cronache parlano."
+          message={
+            <>
+              <p>Ogni barra è una traccia lasciata nell'urna del concilio: i nomi più acclamati sorgono in cima.</p>
+              <p>
+                {winners.length === 0
+                  ? "Nessun vincitore è ancora inciso nelle pergamene: l'urna attende i suoi voti."
+                  : winners.length === 1
+                    ? `Il vincitore è ${winners[0].costume_name}, con ${winningVotes} ${winningVotes === 1 ? "voto" : "voti"}.`
+                    : `Il verdetto proclama un pari merito: ${winners
+                        .map((winner) => winner.costume_name)
+                        .join(", ")}, con ${winningVotes} voti ciascuno.`}
+              </p>
+            </>
+          }
+        />
         {results.map((row, index) => (
           <div className="bar-row" key={row.costume_id}>
             <span className="index-badge">{index + 1}</span>

@@ -203,11 +203,13 @@ export async function getResults(poolId?: string): Promise<ResultRow[]> {
   const counts = new Map<string, number>();
   votes.forEach((vote) => counts.set(vote.costume_id, (counts.get(vote.costume_id) ?? 0) + 1));
 
-  return costumes.map((costume) => ({
-    costume_id: costume.id,
-    costume_name: costume.name,
-    vote_count: counts.get(costume.id) ?? 0
-  }));
+  return costumes
+    .map((costume) => ({
+      costume_id: costume.id,
+      costume_name: costume.name,
+      vote_count: counts.get(costume.id) ?? 0
+    }))
+    .sort((a, b) => b.vote_count - a.vote_count || a.costume_name.localeCompare(b.costume_name, "it-IT"));
 }
 
 export async function getParticipantVotes(poolId?: string): Promise<ParticipantVoteRow[]> {
