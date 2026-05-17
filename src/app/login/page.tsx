@@ -25,7 +25,7 @@ export default async function LoginPage({
       </div>
 
       <div className="split">
-        <form className="panel stack" action={loginGuest}>
+        <form className="panel stack login-form-panel" action={loginGuest}>
           <h2>Ingresso alla sala</h2>
           <p className="muted">Scegli il tuo nome e pronuncia il codice segreto. Potrai iscrivere il costume dopo l'accesso.</p>
           {params.error === "no-pool" ? <p className="error">Nessun concilio e aperto in questo momento.</p> : null}
@@ -51,7 +51,7 @@ export default async function LoginPage({
           </button>
         </form>
 
-        <section className="panel">
+        <section className="panel login-guide-panel">
           <MageGuide
             greeting="Salute a te, nobile ospite del reame."
             message="Scegli il tuo nome, pronuncia il codice segreto, e le porte della sala si apriranno al tuo passo."

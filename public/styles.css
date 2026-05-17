@@ -553,6 +553,14 @@ textarea:disabled {
     grid-template-columns: 1fr;
   }
 
+  .login-guide-panel {
+    order: 1;
+  }
+
+  .login-form-panel {
+    order: 2;
+  }
+
   .topbar {
     display: grid;
     gap: 14px;
