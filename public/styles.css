@@ -522,6 +522,11 @@ textarea:disabled {
   line-height: 1.45;
 }
 
+.mage-balloon p strong {
+  color: #3b2612;
+  font-weight: 900;
+}
+
 .mage-balloon p + p {
   margin-top: 8px;
 }

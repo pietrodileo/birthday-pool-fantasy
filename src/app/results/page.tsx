@@ -47,15 +47,27 @@ export default async function ResultsPage() {
           message={
             <>
               <p>Ogni barra è una traccia lasciata nell'urna del concilio: i nomi più acclamati sorgono in cima.</p>
-              <p>
-                {winners.length === 0
-                  ? "Nessun vincitore è ancora inciso nelle pergamene: l'urna attende i suoi voti."
-                  : winners.length === 1
-                    ? `Il vincitore è ${winners[0].costume_name}, con ${winningVotes} ${winningVotes === 1 ? "voto" : "voti"}.`
-                    : `Il verdetto proclama un pari merito: ${winners
-                        .map((winner) => winner.costume_name)
-                        .join(", ")}, con ${winningVotes} voti ciascuno.`}
-              </p>
+              {winners.length === 0 ? (
+                <p>Nessun vincitore è ancora inciso nelle pergamene: l'urna attende i suoi voti.</p>
+              ) : winners.length === 1 ? (
+                <p>
+                  Congratulazioni a <strong>{winners[0].costume_name}</strong>: il vincitore del concilio, con{" "}
+                  <strong>
+                    {winningVotes} {winningVotes === 1 ? "voto" : "voti"}
+                  </strong>
+                  .
+                </p>
+              ) : (
+                <p>
+                  Congratulazioni a{" "}
+                  <strong>{winners.map((winner) => winner.costume_name).join(", ")}</strong>: il verdetto proclama un
+                  pari merito, con{" "}
+                  <strong>
+                    {winningVotes} {winningVotes === 1 ? "voto" : "voti"}
+                  </strong>{" "}
+                  ciascuno.
+                </p>
+              )}
             </>
           }
         />
