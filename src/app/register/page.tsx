@@ -46,7 +46,7 @@ export default async function RegisterPage({
           <span>Nome del costume / personaggio</span>
           <input
             name="characterName"
-            placeholder="Otharin il Mago Nero"
+            placeholder="Gandalf il Bianco"
             defaultValue={participant?.character_name ?? ""}
             disabled={registrationClosed}
             required
@@ -56,7 +56,7 @@ export default async function RegisterPage({
           <span>Breve descrizione</span>
           <textarea
             name="description"
-            placeholder="Veste nera, bastone antico, aura da sortilegio proibito"
+            placeholder="Veste bianca, bastone luminoso, sguardo di chi ha visto l'alba dopo l'ombra"
             disabled={registrationClosed}
           />
         </label>

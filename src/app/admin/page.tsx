@@ -59,8 +59,11 @@ export default async function AdminPage() {
         </section>
       ) : (
         <div className="stack">
-          <section className="panel stack">
-            <h2>{pool.name}</h2>
+          <details className="panel stack accord" open>
+            <summary>
+              <h2>{pool.name}</h2>
+              <span className="muted">Editti e controllo del concilio</span>
+            </summary>
             <form className="grid" action={updatePoolSettings}>
               <label className="field">
                 <span>Nome del concilio</span>
@@ -98,10 +101,13 @@ export default async function AdminPage() {
                 Scarica cronache CSV
               </Link>
             </div>
-          </section>
+          </details>
 
-          <section className="panel stack">
-            <h2>Esito dell'urna</h2>
+          <details className="panel stack accord" open>
+            <summary>
+              <h2>Esito dell'urna</h2>
+              <span className="muted">{results.length} sfidanti nelle cronache</span>
+            </summary>
             {results.map((row, index) => (
               <div className="bar-row" key={row.costume_id}>
                 <span className="index-badge">{index + 1}</span>
@@ -112,10 +118,13 @@ export default async function AdminPage() {
                 <span>{row.vote_count}</span>
               </div>
             ))}
-          </section>
+          </details>
 
-          <section className="panel stack">
-            <h2>Compagnia iscritta</h2>
+          <details className="panel stack accord">
+            <summary>
+              <h2>Compagnia iscritta</h2>
+              <span className="muted">{participantVotes.length} invitati sotto osservazione</span>
+            </summary>
             <div className="table-wrap">
               <table className="table">
                 <thead>
@@ -152,10 +161,13 @@ export default async function AdminPage() {
                 </tbody>
               </table>
             </div>
-          </section>
+          </details>
 
-          <section className="panel stack">
-            <h2>Invitati</h2>
+          <details className="panel stack accord">
+            <summary>
+              <h2>Invitati</h2>
+              <span className="muted">{participants.length} nomi nell'elenco</span>
+            </summary>
             <form className="grid" action={addParticipant}>
               <input name="displayName" placeholder="Nome dell'invitato" required />
               <input name="characterName" placeholder="Nome costume opzionale" />
@@ -191,10 +203,13 @@ export default async function AdminPage() {
                 </div>
               ))}
             </div>
-          </section>
+          </details>
 
-          <section className="panel stack">
-            <h2>Costumi</h2>
+          <details className="panel stack accord">
+            <summary>
+              <h2>Costumi</h2>
+              <span className="muted">{costumes.length} maschere e stendardi</span>
+            </summary>
             <form className="grid" action={addCostume}>
               <input name="name" placeholder="Nome del costume" required />
               <input name="description" placeholder="Breve descrizione" />
@@ -221,7 +236,7 @@ export default async function AdminPage() {
                 </form>
               ))}
             </div>
-          </section>
+          </details>
         </div>
       )}
     </main>

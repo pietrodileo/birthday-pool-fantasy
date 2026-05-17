@@ -153,6 +153,44 @@ h2 {
   border-radius: 5px;
 }
 
+.accord summary {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+  margin: -4px -4px 4px;
+  padding: 4px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.accord summary::-webkit-details-marker {
+  display: none;
+}
+
+.accord summary::after {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(62, 39, 18, 0.24);
+  border-radius: 999px;
+  color: #3b2612;
+  background: linear-gradient(180deg, rgba(255, 251, 237, 0.86), rgba(196, 147, 61, 0.28));
+  content: "+";
+  font-size: 1.35rem;
+  font-weight: 900;
+}
+
+.accord[open] summary::after {
+  content: "-";
+}
+
+.accord summary h2 {
+  margin-bottom: 0;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
