@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { castVote, logout } from "@/app/actions";
+import { MageGuide } from "@/components/MageGuide";
 import { getActiveCostumes, getActivePool, getParticipant, getParticipantVote } from "@/lib/data";
 import { getSession } from "@/lib/session";
 
@@ -42,6 +43,15 @@ export default async function VotePage({
           </button>
         </form>
       </div>
+
+      <MageGuide
+        title={pool?.voting_open ? "L'urna attende" : "Il consiglio si prepara"}
+        message={
+          pool?.voting_open
+            ? "Guarda i nomi, ascolta il tuo cuore, poi sigilla una sola runa."
+            : "Iscrivi il tuo costume: quando il Custode aprira l'urna, il tuo nome sara gia tra le cronache."
+        }
+      />
 
       <form className="stack" action={castVote}>
         {params.registered ? <p className="error">La tua iscrizione e stata sigillata negli annali.</p> : null}

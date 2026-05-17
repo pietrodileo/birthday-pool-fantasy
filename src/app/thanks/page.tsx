@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { logout } from "@/app/actions";
+import { MageGuide } from "@/components/MageGuide";
 import { getParticipantVote } from "@/lib/data";
 import { getSession } from "@/lib/session";
 
@@ -18,6 +19,7 @@ export default async function ThanksPage() {
   return (
     <main className="shell">
       <section className="panel stack">
+        <MageGuide title="La runa e incisa" message="Il tuo voto riposa ora tra cera, pergamena e antichi sigilli." />
         <span className="eyebrow">Voto inciso</span>
         <h1>Onore a te, {session.displayName}.</h1>
         <p className="lede">

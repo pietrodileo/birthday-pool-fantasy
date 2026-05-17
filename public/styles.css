@@ -457,6 +457,169 @@ textarea:disabled {
   align-items: start;
 }
 
+.mage-guide {
+  display: grid;
+  grid-template-columns: 112px 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid rgba(196, 147, 61, 0.34);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 78% 10%, rgba(230, 188, 104, 0.24), transparent 9rem),
+    linear-gradient(135deg, rgba(255, 251, 237, 0.68), rgba(196, 147, 61, 0.18));
+}
+
+.mage-art {
+  width: 108px;
+  max-width: 100%;
+  animation: mage-float 4.6s ease-in-out infinite;
+}
+
+.mage-art svg {
+  display: block;
+  width: 100%;
+  filter: drop-shadow(0 14px 18px rgba(18, 13, 9, 0.24));
+}
+
+.mage-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.mage-copy strong {
+  color: #3b2612;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.15rem;
+}
+
+.mage-copy p {
+  margin-bottom: 0;
+  color: rgba(62, 39, 18, 0.74);
+  line-height: 1.45;
+}
+
+.mage-glow,
+.mage-orb {
+  animation: mage-pulse 2.6s ease-in-out infinite;
+}
+
+.mage-staff,
+.mage-sash,
+.mage-arm,
+.mage-smile {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mage-staff {
+  stroke: #6b4220;
+  stroke-width: 6;
+}
+
+.mage-orb {
+  fill: #fff2a9;
+  stroke: #c4933d;
+  stroke-width: 3;
+}
+
+.mage-hat,
+.mage-brim {
+  fill: #26384d;
+  stroke: #111827;
+  stroke-width: 4;
+}
+
+.mage-face {
+  fill: #f2cda2;
+  stroke: #6b4220;
+  stroke-width: 3;
+}
+
+.mage-beard {
+  fill: #fff7df;
+  stroke: #d2b98b;
+  stroke-width: 3;
+}
+
+.mage-eye {
+  fill: #22170d;
+  animation: mage-blink 5.8s infinite;
+  transform-origin: center;
+}
+
+.mage-smile {
+  stroke: #6b4220;
+  stroke-width: 3;
+}
+
+.mage-robe {
+  stroke: #172033;
+  stroke-width: 4;
+}
+
+.mage-sash {
+  stroke: #e6bc68;
+  stroke-width: 7;
+}
+
+.mage-arm {
+  stroke: #26384d;
+  stroke-width: 12;
+}
+
+.mage-star {
+  fill: #e6bc68;
+  animation: mage-twinkle 3.4s ease-in-out infinite;
+  transform-origin: 86px 39px;
+}
+
+@keyframes mage-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes mage-pulse {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes mage-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.12);
+  }
+}
+
+@keyframes mage-twinkle {
+  0%,
+  100% {
+    opacity: 0.68;
+    transform: scale(0.94) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08) rotate(10deg);
+  }
+}
+
 @media (max-width: 780px) {
   .shell {
     width: min(100% - 20px, 1120px);
@@ -535,6 +698,24 @@ textarea:disabled {
     display: block;
     overflow-x: auto;
   }
+
+  .mage-guide {
+    grid-template-columns: 78px 1fr;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .mage-art {
+    width: 76px;
+  }
+
+  .mage-copy strong {
+    font-size: 1rem;
+  }
+
+  .mage-copy p {
+    font-size: 0.94rem;
+  }
 }
 
 @media (max-width: 420px) {
@@ -562,5 +743,15 @@ textarea:disabled {
 
   .choice input {
     inset: 16px 16px auto auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mage-art,
+  .mage-glow,
+  .mage-orb,
+  .mage-eye,
+  .mage-star {
+    animation: none;
   }
 }

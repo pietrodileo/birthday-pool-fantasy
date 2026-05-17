@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { loginGuest } from "@/app/actions";
+import { MageGuide } from "@/components/MageGuide";
 import { getActiveParticipants, getActivePool } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
@@ -51,6 +52,10 @@ export default async function LoginPage({
         </form>
 
         <section className="panel">
+          <MageGuide
+            title="Il mago della soglia"
+            message="Scegli il tuo nome, sussurra il codice, e la sala del concilio si aprira."
+          />
           <h2>Un eroe, un voto</h2>
           <p className="lede">
             Prima entra nella sala, poi iscrivi il tuo costume al concilio. Ogni partecipante potra deporre

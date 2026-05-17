@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { registerParticipant } from "@/app/actions";
+import { MageGuide } from "@/components/MageGuide";
 import { getActivePool, getParticipant } from "@/lib/data";
 import { getSession } from "@/lib/session";
 
@@ -35,6 +36,11 @@ export default async function RegisterPage({
           Torna al concilio
         </Link>
       </div>
+
+      <MageGuide
+        title="Dai un nome alla leggenda"
+        message="Un costume senza nome e solo stoffa. Un nome ben scelto diventa memoria."
+      />
 
       <form className="panel stack" action={registerParticipant} style={{ maxWidth: 620 }}>
         <h2>{session.displayName}</h2>
