@@ -476,7 +476,7 @@ textarea:disabled {
   animation: mage-float 4.6s ease-in-out infinite;
 }
 
-.mage-art svg {
+.mage-art img {
   display: block;
   width: 100%;
   filter: drop-shadow(0 14px 18px rgba(18, 13, 9, 0.24));
@@ -499,82 +499,6 @@ textarea:disabled {
   line-height: 1.45;
 }
 
-.mage-glow,
-.mage-orb {
-  animation: mage-pulse 2.6s ease-in-out infinite;
-}
-
-.mage-staff,
-.mage-sash,
-.mage-arm,
-.mage-smile {
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.mage-staff {
-  stroke: #6b4220;
-  stroke-width: 6;
-}
-
-.mage-orb {
-  fill: #fff2a9;
-  stroke: #c4933d;
-  stroke-width: 3;
-}
-
-.mage-hat,
-.mage-brim {
-  fill: #26384d;
-  stroke: #111827;
-  stroke-width: 4;
-}
-
-.mage-face {
-  fill: #f2cda2;
-  stroke: #6b4220;
-  stroke-width: 3;
-}
-
-.mage-beard {
-  fill: #fff7df;
-  stroke: #d2b98b;
-  stroke-width: 3;
-}
-
-.mage-eye {
-  fill: #22170d;
-  animation: mage-blink 5.8s infinite;
-  transform-origin: center;
-}
-
-.mage-smile {
-  stroke: #6b4220;
-  stroke-width: 3;
-}
-
-.mage-robe {
-  stroke: #172033;
-  stroke-width: 4;
-}
-
-.mage-sash {
-  stroke: #e6bc68;
-  stroke-width: 7;
-}
-
-.mage-arm {
-  stroke: #26384d;
-  stroke-width: 12;
-}
-
-.mage-star {
-  fill: #e6bc68;
-  animation: mage-twinkle 3.4s ease-in-out infinite;
-  transform-origin: 86px 39px;
-}
-
 @keyframes mage-float {
   0%,
   100% {
@@ -582,41 +506,6 @@ textarea:disabled {
   }
   50% {
     transform: translateY(-7px);
-  }
-}
-
-@keyframes mage-pulse {
-  0%,
-  100% {
-    opacity: 0.72;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.08);
-  }
-}
-
-@keyframes mage-blink {
-  0%,
-  92%,
-  100% {
-    transform: scaleY(1);
-  }
-  95% {
-    transform: scaleY(0.12);
-  }
-}
-
-@keyframes mage-twinkle {
-  0%,
-  100% {
-    opacity: 0.68;
-    transform: scale(0.94) rotate(0deg);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.08) rotate(10deg);
   }
 }
 
@@ -747,11 +636,7 @@ textarea:disabled {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mage-art,
-  .mage-glow,
-  .mage-orb,
-  .mage-eye,
-  .mage-star {
+  .mage-art {
     animation: none;
   }
 }
