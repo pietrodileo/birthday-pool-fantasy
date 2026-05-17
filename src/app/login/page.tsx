@@ -53,7 +53,7 @@ export default async function LoginPage({
 
         <section className="panel login-guide-panel">
           <MageGuide
-            greeting="Salute a te, nobile ospite del reame."
+            greeting="Salute a te, nobile ospite del gran ballo."
             message={
               <>
                 <p>
