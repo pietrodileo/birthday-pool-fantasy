@@ -59,7 +59,7 @@ export default async function RegisterPage({
           />
         </label>
         <label className="field">
-          <span>Breve descrizione</span>
+          <span>Se vuoi puoi aggiungere una breve descrizione</span>
           <textarea
             name="description"
             placeholder="Veste bianca, bastone luminoso, sguardo di chi ha visto l'alba dopo l'ombra"
