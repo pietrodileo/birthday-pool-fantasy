@@ -7,6 +7,20 @@ import {
   type ResultRow
 } from "./supabase";
 
+type RelatedParticipant = { display_name?: string } | { display_name?: string }[] | null;
+
+function relatedParticipantName(participant: RelatedParticipant) {
+  if (Array.isArray(participant)) {
+    return participant[0]?.display_name ?? null;
+  }
+
+  return participant?.display_name ?? null;
+}
+
+function normalizeName(value: string) {
+  return value.trim().toLocaleLowerCase("it-IT");
+}
+
 export async function getActivePool() {
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
@@ -100,7 +114,7 @@ export async function getActiveCostumes() {
 
   return data.map((costume) => ({
     ...costume,
-    owner_name: (costume.participants as { display_name?: string } | null)?.display_name ?? null
+    owner_name: relatedParticipantName(costume.participants as RelatedParticipant)
   })) as Costume[];
 }
 
@@ -124,7 +138,7 @@ export async function getAllCostumes(poolId?: string) {
 
   return data.map((costume) => ({
     ...costume,
-    owner_name: (costume.participants as { display_name?: string } | null)?.display_name ?? null
+    owner_name: relatedParticipantName(costume.participants as RelatedParticipant)
   })) as Costume[];
 }
 
@@ -200,16 +214,39 @@ export async function getResults(poolId?: string): Promise<ResultRow[]> {
     throw votesError;
   }
 
+  const { data: participants, error: participantsError } = await supabase
+    .from("participants")
+    .select("display_name, character_name")
+    .eq("pool_id", pool.id);
+
+  if (participantsError) {
+    throw participantsError;
+  }
+
+  const ownerByCharacterName = new Map<string, string>();
+  participants.forEach((participant) => {
+    if (participant.character_name) {
+      ownerByCharacterName.set(normalizeName(participant.character_name), participant.display_name);
+    }
+  });
+
   const counts = new Map<string, number>();
   votes.forEach((vote) => counts.set(vote.costume_id, (counts.get(vote.costume_id) ?? 0) + 1));
 
   return costumes
-    .map((costume) => ({
-      costume_id: costume.id,
-      costume_name: costume.name,
-      owner_name: (costume.participants as { display_name?: string } | null)?.display_name ?? null,
-      vote_count: counts.get(costume.id) ?? 0
-    }))
+    .map((costume) => {
+      const ownerName =
+        relatedParticipantName(costume.participants as RelatedParticipant) ??
+        ownerByCharacterName.get(normalizeName(costume.name)) ??
+        null;
+
+      return {
+        costume_id: costume.id,
+        costume_name: costume.name,
+        owner_name: ownerName,
+        vote_count: counts.get(costume.id) ?? 0
+      };
+    })
     .sort((a, b) => b.vote_count - a.vote_count || a.costume_name.localeCompare(b.costume_name, "it-IT"));
 }
 
