@@ -28,7 +28,7 @@ export default async function LoginPage({
         <form className="panel stack login-form-panel" action={loginGuest}>
           <h2>Ingresso alla sala</h2>
           <p className="muted">Scegli il tuo nome e pronuncia il codice segreto. Potrai iscrivere il costume dopo l'accesso.</p>
-          {params.error === "no-pool" ? <p className="error">Nessun concilio e aperto in questo momento.</p> : null}
+          {params.error === "no-pool" ? <p className="error">Nessun concilio è aperto in questo momento.</p> : null}
           {params.error === "invalid" ? <p className="error">Nome o codice non riconosciuti dagli archivi del reame.</p> : null}
           <label className="field">
             <span>Nome</span>
@@ -57,9 +57,9 @@ export default async function LoginPage({
             message="Scegli il tuo nome, pronuncia il codice segreto, e le porte della sala si apriranno al tuo passo."
           />
           <h2>Un eroe, un voto</h2>
-          <p className="muted">Quando la notte chiama a raccolta, anche il piu umile mantello puo diventare leggenda.</p>
+          <p className="muted">Quando la notte chiama a raccolta, anche il più umile mantello può diventare leggenda.</p>
           <p className="lede">
-            Entra nella sala, iscrivi il tuo costume al concilio e, quando giungera il momento, affida un solo
+            Entra nella sala, iscrivi il tuo costume al concilio e, quando giungerà il momento, affida un solo
             voto al verdetto del reame.
           </p>
         </section>

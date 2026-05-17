@@ -15,7 +15,7 @@ export default async function ResultsPage() {
         <section className="panel stack">
           <span className="eyebrow">{pool?.name ?? "Concilio dei costumi"}</span>
           <h1>Le cronache sono ancora velate.</h1>
-          <p className="lede">La classifica apparira quando il Custode sciogliera il sigillo.</p>
+          <p className="lede">La classifica apparirà quando il Custode scioglierà il sigillo.</p>
           <Link className="button" href="/login">
             Indietro
           </Link>
@@ -40,7 +40,7 @@ export default async function ResultsPage() {
       </div>
 
       <section className="panel stack">
-        <MageGuide greeting="Le cronache parlano." message="Ogni barra e una traccia lasciata nell'urna del concilio." />
+        <MageGuide greeting="Le cronache parlano." message="Ogni barra è una traccia lasciata nell'urna del concilio." />
         {results.map((row, index) => (
           <div className="bar-row" key={row.costume_id}>
             <span className="index-badge">{index + 1}</span>

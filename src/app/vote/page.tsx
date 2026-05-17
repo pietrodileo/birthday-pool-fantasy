@@ -49,26 +49,26 @@ export default async function VotePage({
         message={
           pool?.voting_open
             ? "Guarda i nomi, ascolta il tuo cuore, poi sigilla una sola runa."
-            : "Iscrivi il tuo costume: quando il Custode aprira l'urna, il tuo nome sara gia tra le cronache."
+            : "Iscrivi il tuo costume: quando il Custode aprirà l'urna, il tuo nome sarà già tra le cronache."
         }
       />
 
       <form className="stack" action={castVote}>
-        {params.registered ? <p className="error">La tua iscrizione e stata sigillata negli annali.</p> : null}
+        {params.registered ? <p className="error">La tua iscrizione è stata sigillata negli annali.</p> : null}
         <div className="panel stack">
           <h2>La tua iscrizione</h2>
           <p className="muted">
             {participant?.character_name
               ? `Sei iscritto come ${participant.character_name}.`
-              : "Iscrivi il tuo costume prima che l'urna venga aperta, cosi apparira nel concilio."}
+              : "Iscrivi il tuo costume prima che l'urna venga aperta, così apparirà nel concilio."}
           </p>
           <p className="muted">Che il tuo nome sia ricordato tra torce, canti e antiche promesse.</p>
           <a className="button secondary" href="/register">
             {participant?.character_name ? "Modifica iscrizione" : "Iscriviti al concilio"}
           </a>
         </div>
-        {params.error ? <p className="error">Il voto non e stato inciso. Forse hai gia parlato all'urna.</p> : null}
-        {!pool?.voting_open ? <p className="error">L'urna e ancora chiusa: il Custode non ha dato il segnale.</p> : null}
+        {params.error ? <p className="error">Il voto non è stato inciso. Forse hai già parlato all'urna.</p> : null}
+        {!pool?.voting_open ? <p className="error">L'urna è ancora chiusa: il Custode non ha dato il segnale.</p> : null}
         <div className="grid">
           {costumes.map((costume, index) => (
             <label className="card choice" key={costume.id}>
@@ -88,7 +88,7 @@ export default async function VotePage({
       </form>
 
       <p className="muted" style={{ marginTop: 20 }}>
-        La curiosita ti chiama? <Link href="/results">Consulta le cronache</Link>.
+        La curiosità ti chiama? <Link href="/results">Consulta le cronache</Link>.
       </p>
     </main>
   );

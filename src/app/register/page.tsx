@@ -39,15 +39,15 @@ export default async function RegisterPage({
 
       <MageGuide
         greeting="Dai un nome alla leggenda."
-        message="Un costume senza nome e solo stoffa. Un nome ben scelto diventa memoria."
+        message="Un costume senza nome è solo stoffa. Un nome ben scelto diventa memoria."
       />
 
       <form className="panel stack" action={registerParticipant} style={{ maxWidth: 620 }}>
         <h2>{session.displayName}</h2>
-        <p className="muted">Cosi il tuo costume apparira sulla pergamena del voto.</p>
+        <p className="muted">Così il tuo costume apparirà sulla pergamena del voto.</p>
         {registrationClosed ? <p className="error">Le iscrizioni sono chiuse: il portale tace.</p> : null}
         {params.error === "missing" ? <p className="error">Dai un nome al tuo costume prima di sigillare.</p> : null}
-        {params.error === "failed" ? <p className="error">L'iscrizione non e riuscita. Ritenta, viandante.</p> : null}
+        {params.error === "failed" ? <p className="error">L'iscrizione non è riuscita. Ritenta, viandante.</p> : null}
         <label className="field">
           <span>Nome del costume / personaggio</span>
           <input
