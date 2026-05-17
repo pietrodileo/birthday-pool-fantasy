@@ -522,6 +522,10 @@ textarea:disabled {
   line-height: 1.45;
 }
 
+.mage-balloon p + p {
+  margin-top: 8px;
+}
+
 @keyframes mage-float {
   0%,
   100% {

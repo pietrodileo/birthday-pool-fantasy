@@ -54,14 +54,20 @@ export default async function LoginPage({
         <section className="panel login-guide-panel">
           <MageGuide
             greeting="Salute a te, nobile ospite del reame."
-            message="Scegli il tuo nome, pronuncia il codice segreto, e le porte della sala si apriranno al tuo passo."
+            message={
+              <>
+                <p>
+                  Quando la notte chiama a raccolta, anche il più umile mantello può diventare leggenda. Un eroe,
+                  un voto: questa è la legge del concilio.
+                </p>
+                <p>
+                  Scegli il tuo nome, pronuncia il codice segreto, e le porte della sala si apriranno al tuo passo.
+                  Entra, iscrivi il tuo costume e, quando giungerà il momento, affida il tuo voto al verdetto del
+                  reame.
+                </p>
+              </>
+            }
           />
-          <h2>Un eroe, un voto</h2>
-          <p className="muted">Quando la notte chiama a raccolta, anche il più umile mantello può diventare leggenda.</p>
-          <p className="lede">
-            Entra nella sala, iscrivi il tuo costume al concilio e, quando giungerà il momento, affida un solo
-            voto al verdetto del reame.
-          </p>
         </section>
       </div>
     </main>

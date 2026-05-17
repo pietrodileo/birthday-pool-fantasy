@@ -1,6 +1,8 @@
+import type { ReactNode } from "react";
+
 type MageGuideProps = {
   greeting?: string;
-  message: string;
+  message: ReactNode;
 };
 
 export function MageGuide({ greeting, message }: MageGuideProps) {
@@ -11,7 +13,7 @@ export function MageGuide({ greeting, message }: MageGuideProps) {
       </div>
       <div className="mage-balloon">
         {greeting ? <strong>{greeting}</strong> : null}
-        <p>{message}</p>
+        {typeof message === "string" ? <p>{message}</p> : message}
       </div>
     </aside>
   );
