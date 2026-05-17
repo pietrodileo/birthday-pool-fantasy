@@ -57,11 +57,11 @@ export default async function LoginPage({
             message="Scegli il tuo nome, pronuncia il codice segreto, e le porte della sala si apriranno al tuo passo."
           />
           <h2>Un eroe, un voto</h2>
-          <p className="lede">
-            Prima entra nella sala, poi iscrivi il tuo costume al concilio. Ogni partecipante potra deporre
-            una sola runa nell'urna.
-          </p>
           <p className="muted">Quando la notte chiama a raccolta, anche il piu umile mantello puo diventare leggenda.</p>
+          <p className="lede">
+            Entra nella sala, iscrivi il tuo costume al concilio e, quando giungera il momento, affida un solo
+            voto al verdetto del reame.
+          </p>
         </section>
       </div>
     </main>
