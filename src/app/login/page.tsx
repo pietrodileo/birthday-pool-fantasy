@@ -53,8 +53,8 @@ export default async function LoginPage({
 
         <section className="panel">
           <MageGuide
-            title="Il mago della soglia"
-            message="Scegli il tuo nome, sussurra il codice, e la sala del concilio si aprira."
+            greeting="Salute a te, nobile ospite del reame."
+            message="Scegli il tuo nome, pronuncia il codice segreto, e le porte della sala si apriranno al tuo passo."
           />
           <h2>Un eroe, un voto</h2>
           <p className="lede">

@@ -40,7 +40,7 @@ export default async function ResultsPage() {
       </div>
 
       <section className="panel stack">
-        <MageGuide title="Le cronache parlano" message="Ogni barra e una traccia lasciata nell'urna del concilio." />
+        <MageGuide greeting="Le cronache parlano." message="Ogni barra e una traccia lasciata nell'urna del concilio." />
         {results.map((row, index) => (
           <div className="bar-row" key={row.costume_id}>
             <span className="index-badge">{index + 1}</span>

@@ -38,7 +38,7 @@ export default async function RegisterPage({
       </div>
 
       <MageGuide
-        title="Dai un nome alla leggenda"
+        greeting="Dai un nome alla leggenda."
         message="Un costume senza nome e solo stoffa. Un nome ben scelto diventa memoria."
       />
 

@@ -45,7 +45,7 @@ export default async function VotePage({
       </div>
 
       <MageGuide
-        title={pool?.voting_open ? "L'urna attende" : "Il consiglio si prepara"}
+        greeting={pool?.voting_open ? "L'urna attende il tuo giudizio." : "Il concilio prende forma."}
         message={
           pool?.voting_open
             ? "Guarda i nomi, ascolta il tuo cuore, poi sigilla una sola runa."

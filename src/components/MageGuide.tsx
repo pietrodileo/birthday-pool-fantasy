@@ -1,16 +1,16 @@
 type MageGuideProps = {
-  title: string;
+  greeting?: string;
   message: string;
 };
 
-export function MageGuide({ title, message }: MageGuideProps) {
+export function MageGuide({ greeting, message }: MageGuideProps) {
   return (
     <aside className="mage-guide" aria-label="Mago guida">
       <div className="mage-art" aria-hidden="true">
         <img src="/mage-guide.png" alt="" />
       </div>
-      <div className="mage-copy">
-        <strong>{title}</strong>
+      <div className="mage-balloon">
+        {greeting ? <strong>{greeting}</strong> : null}
         <p>{message}</p>
       </div>
     </aside>
