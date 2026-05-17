@@ -182,7 +182,7 @@ export async function getResults(poolId?: string): Promise<ResultRow[]> {
   const supabase = getSupabaseAdmin();
   const { data: costumes, error: costumesError } = await supabase
     .from("costumes")
-    .select("id, name")
+    .select("id, name, participants(display_name)")
     .eq("pool_id", pool.id)
     .eq("active", true)
     .order("name");
@@ -207,6 +207,7 @@ export async function getResults(poolId?: string): Promise<ResultRow[]> {
     .map((costume) => ({
       costume_id: costume.id,
       costume_name: costume.name,
+      owner_name: (costume.participants as { display_name?: string } | null)?.display_name ?? null,
       vote_count: counts.get(costume.id) ?? 0
     }))
     .sort((a, b) => b.vote_count - a.vote_count || a.costume_name.localeCompare(b.costume_name, "it-IT"));

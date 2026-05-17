@@ -32,6 +32,7 @@ export type Pool = {
 export type ResultRow = {
   costume_id: string;
   costume_name: string;
+  owner_name: string | null;
   vote_count: number;
 };
 

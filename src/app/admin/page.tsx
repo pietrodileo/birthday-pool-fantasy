@@ -111,7 +111,10 @@ export default async function AdminPage() {
             {results.map((row, index) => (
               <div className="bar-row" key={row.costume_id}>
                 <span className="index-badge">{index + 1}</span>
-                <strong>{row.costume_name}</strong>
+                <span>
+                  <strong>{row.costume_name}</strong>
+                  {row.owner_name ? <span className="muted"> di {row.owner_name}</span> : null}
+                </span>
                 <div className="bar-track">
                   <div className="bar-fill" style={{ width: `${Math.max(4, (row.vote_count / maxVotes) * 100)}%` }} />
                 </div>
